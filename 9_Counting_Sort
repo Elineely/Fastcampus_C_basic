@@ -1,0 +1,20 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#define MAX_VALUE 10001 //정렬할 data가 가질 수 있는 가장 큰 값
+
+int n, m;
+int a[MAX_VALUE];
+
+int main(){
+    scanf("%d", &n); //입력받을 값의 갯수
+    for(int i= 0; i < n; i++) { //정렬
+        scanf("%d", &m); //값이 입력될 때마다
+        a[m]++; // 그 값에 해당하는 Index의 원소를 1씩 증가
+    }
+    for(int i=0; i < n; i++){
+        while (a[i] != 0){
+            printf("%d", i);
+            a[i]--;
+        }
+    }
+}
