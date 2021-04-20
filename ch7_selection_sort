@@ -1,0 +1,31 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <limits.h>
+#define SIZE 1000
+
+int a[SIZE];
+
+int swap(int *a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main(void){
+    int n, min, index; // min = 한번 검색 할 때마다 발견되는 가장 작은 값
+    scanf("%d", &n); //원소의 갯수 n값 입력 받기
+    for (int i = 0; i <n ; i++) scanf("%d", &a[i]);
+    for (int i = 0; i <n ; i++){
+        min = INT_MAX;
+        for(int j = i; j < n; j++){
+            if (min > a[j]){
+                min = a[j];
+                index = j; //index는 가장 작은 값이 존재하는 위치(인덱스)
+            }
+        }
+        swap(&a[i], &a[index]); //자리 바꾸기
+    }
+    for(int i = 0; i < n ; i++) printf("%d ", a[i]);
+    system("pause");
+    return 0;
+}
