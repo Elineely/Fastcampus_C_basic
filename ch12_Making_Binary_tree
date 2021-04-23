@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node{
+    int data; //실제로는 이것보다 많은 양의 데이터가 들어가는 경우가 많다.
+    struct Node *leftChild;
+    struct Node *rightChild;
+}Node;
+
+//특정한 노드를 초기화하는 함수
+Node* initNode(int data, Node* leftChild, Node* rightChild){
+    Node* node = (Node*)malloc(sizeof(Node));
+    node->data = data;
+    node->leftChild = leftChild;
+    node->rightChild = rightChild;
+    return node; // 해당 노드의 포인터를 반환
+} // 이진트리의 경우, 함수의 반환형에 특정 노드의 포인터가 들어가는 경우가 많다.
+
+void preorder(Node* root){
+    if(root){
+        printf("%d ", root->data); //자기 자신부터 출력
+        preorder(root->leftChild); //재귀적으로 왼쪽자식부터 방문
+        preorder(root->rightChild);
+    }
+}
+
+void inorder(Node* root){
+    if(root){
+        inorder(root->leftChild); //재귀적으로 왼쪽자식 방문
+        printf("%d ", root->data); //자기자신 출력
+        inorder(root->rightChild);
+    }
+}
+void postorder(Node* root){
+    if(root){
+        postorder(root->leftChild); //재귀적으로 왼쪽 자식 방문
+        postorder(root->rightChild); //재귀적으로 오른쪽 자식 방문
+        printf("%d ", root->data); //자기 자신 출력
+    }
+}
+
+int main(void){
+    Node* n7 = initNode(50, NULL, NULL); //리프노드들 부터 초기화
+    Node* n6 = initNode(37, NULL, NULL);
+    Node* n5 = initNode(23, NULL, NULL);
+    Node* n4 = initNode(5, NULL, NULL);
+    Node* n3 = initNode(48, n6, n7);
+    Node* n2 = initNode(17, n4, n5);
+    Node* n1 = initNode(30, n2, n3); //root노드
+    preorder(n1); //전위 순회 결과 출력
+    printf("\n");
+    inorder(n1);
+    printf("\n");
+    postorder(n1);
+    printf("\n");
+    system("pause");
+    return 0;
+}
