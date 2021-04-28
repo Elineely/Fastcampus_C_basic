@@ -27,7 +27,6 @@ void showAll(Node *root){
 }
 
 //연결 리스트 사용하기
-
 int main(void){
     int n, m; 
     scanf("%d %d", &n, &m); //노드 갯수 n, 간선 갯수 m
