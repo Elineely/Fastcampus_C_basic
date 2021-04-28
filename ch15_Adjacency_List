@@ -1,0 +1,52 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int idex;
+    int distance;
+    struct Node *next;
+} Node;
+
+//연결리스트 삽입 함수
+void addFront(Node *root, int index, int distance){
+    Node *node = (Node*)malloc(sizeof(Node));
+    node->index = index;
+    node->distance = distance;
+    node->next = root->next;
+    root->next = node;
+}
+
+//연결 리스트 출력함수
+void showAll(Node *root){
+    Node *cur = root->next;
+    while(cur != NULL){
+        printf("%d(거리: %d)", cur->index, cur->distance); //연결된 원소(그 원소까지의 거리)
+        cur = cur->next;
+    }
+}
+
+//연결 리스트 사용하기
+
+int main(void){
+    int n, m; 
+    scanf("%d %d", &n, &m); //노드 갯수 n, 간선 갯수 m
+    Node** a = (Node**)malloc(sizeof(Node*)*(n+1)); //노드의 갯수 만큼 연결리스트가 필요. 각 index가 1부터 출발하게 하기 위해 n+1만큼 동적할당
+    for(int i =1; i <= n; i++){
+        a[i] = (Node*)malloc(sizeof(Node));
+        a[i]->next = NULL;
+    }
+    //각 간선의 정보들을 사용자로부터 입력 받음
+    for(int i = 0; i < m; i++){
+        int x, y, distance;
+        scanf("%d %d %d", &x,&y,&distance);
+        addFront(a[x], y, distance);   
+    }
+    for (int i = 1; i <= n; i++){
+        printf("원소 [%d] : ", i);
+        showAll(a[i]);
+        printf("\n");
+    }
+    system("pause");
+    return 0;
+}
