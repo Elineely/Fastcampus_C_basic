@@ -1,0 +1,22 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int a[1001][1001]; //1000X1000행렬. 각 index가 1부터 출발할 수 있게 일부러 1만큼 공간을 더 할당
+int n, m;
+
+int main(void){
+    scanf("%d %d", &n, &m); //노드의 개수 n, 간선의 갯수 m
+    for (int i =0; i < m; i++){ //간선의 갯수 만큼 반복
+        int x, y;
+        scanf("%d %d", &x, &y); //연결된 2개의 정점을 입력받아, 해당 값에 원소 1을 넣어줌
+        a[x][y] = 1;
+        a[y][x] = 1;
+    }
+    for (int i = 1; i <= n; i++){
+        for (int j = 1; j <= n; j++){
+            printf("%d ", a[i][j]);
+        }
+        printf("\n");
+    }
+    system("pause");
+}
