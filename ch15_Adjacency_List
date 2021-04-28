@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 typedef struct {
-    int idex;
+    int index;
     int distance;
     struct Node *next;
 } Node;
