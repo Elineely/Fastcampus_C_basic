@@ -1,0 +1,49 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_SIZE 1001
+
+typedef struct{
+    int index;
+    struct Node *next;
+} Node;
+
+Node** a; //연결리스트(정점)이 여러개 있다고 가정 -> 2차원 포인터로 할당
+int n, m, c[MAX_SIZE]; //정점의 갯수 n, 간선 갯수 m, 현재 방문을 했는지를 체크하는 변수 c
+
+void addFront(Node *root, int index){
+    Node *node = (Node*)malloc(sizeof(Node));
+    node->index = index;
+    node->next = root->next;
+    root->next = node;
+}
+
+void dfs(int x){ //인덱스 x 원소를 최상단 노드로 가정하고 시행
+    if(c[x]) return; // 현재 해당 노드를 방문한 적 있다면 return 처리
+    c[x] = 1; //해당 노드 방문 처리
+    printf("%d ", x);
+    Node *cur = a[x]->next;
+    while (cur != NULL){
+        int next = cur->index;
+        dfs(next); //재귀적으로 깊이우선탐색 수행
+        cur = cur->next;
+    }
+}
+
+int main(void){
+    scanf("%d %d",&n, &m); //정점, 간선 갯수 입력받음
+    a = (Node**)malloc(sizeof(Node*) *(MAX_SIZE));
+    for(int i = 1; i <=n; i++){ //n개의 정점 생성(메모리 할당 및 초기화)
+        a[i] = (Node*)malloc(sizeof(Node));
+        a[i]->next = NULL;
+    }
+    for (int i=0; i < m; i++){
+        int x, y;
+        scanf("%d %d", &x, &y); //연결된 정점 정보 입력 받음
+        addFront(a[x], y); //x->y 간선 존재
+        addFront(a[y], x); //y->x 간선 존재
+    }
+    dfs(1);
+    system("pause");
+    return 0;
+}
