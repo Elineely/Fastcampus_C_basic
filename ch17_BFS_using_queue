@@ -1,0 +1,93 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define INF 99999999
+#define MAX_SIZE 1001
+
+typdef struct {
+    int index;
+    struct Node *next;
+} Node;
+
+typdef struct {
+    Node *front;
+    Node *rear;
+    int count;
+    int count;
+} Queue;
+
+Node** a;
+int n, m, c[MAX_SIZE];
+
+void addFront(Node *root, int index){ //root 노드 다음에 새 노드를 삽입하는 함수
+    Node *node = (*Node)malloc(sizeof(Node));
+    node->index = index;
+    node->next = root->next;
+    root->next = node;   
+}
+
+void queuePush(Queue *queue, int index){
+    Node *node = (*Node)malloc(sizeof(Node));
+    node->index = index;
+    node->next = NULL;
+    if(queue->count == 0){ //현재 큐가 비어있다면 front에 연결
+        queue->front = node;
+    }
+    else{ //그 외엔 꼬리부분에 연결
+        queue->rear->next = node;
+    }
+    queue->rear = node; //새 노드를 마지막 노드로 지정
+    queue->count++;
+}
+
+int queuePop(Queue *queue){
+    if(queue->count == 0){
+        printf("큐 언더플로우가 발생했습니다.\n");
+        return -INF;
+    }
+    Node *node = queue->front;
+    int index = node->index;
+    queue->front = node->next;
+    free(node);
+    queue->count--;
+    return index;
+}
+
+void bfs(int start){ //특정 위치에서 탐색 시작
+    Queue q;
+    q.front = q.rear = NILL; //초기화
+    q.count = 0;
+    queuePush(&q, start);
+    c[start] = 1; //시작노드 방문처리
+    while (q.count != 0){//큐가 빌때까지 반복
+        int x = queuePop(&q); //기준이 되는 노드 큐에서 추출
+        printf("%d " , x); //방문순서가 남도록 기준 노드를 출력
+        Node *cur = a[x]->next; //기존노드에 인접한 노드로 이동
+        while (cur != NULL){ //인접한 노드가 없을 때까지 반복
+            int next = cur->index;
+            if(!c[next]){ //해당 노드에 인접한 노드가 있을경우
+                queuePush(&q, next); //해당 노드 큐에 삽입
+                c[next] = 1; //해당 노드 방문처리
+            }
+            cur = cur->next; //다음 인접한 노드로 이동
+        }
+    }
+}
+
+int main(void){
+    scanf("%d %d", &n, &m); //정점갯수 n, 간선갯수 m 입력 받음
+    a = (Node**)malloc(sizeof(Node*) * (MAX_SIZE)); //각 노드당 최대 1천개씩 연결될 수 있음
+    for(int i = 1; i <= n; i++){ //정점 n개 생성 및 초기화
+        a[i] = (Node*)malloc(sizeof(Node));
+        a[i]->next = NULL;
+    }
+    for(int i = 0; i < m; i++){ //연결된 정점 정보 입력받기(간선의 갯수 만큼 반복)
+        int x, y;
+        scanf("%d %d", &x, &y);
+        addFront(a[x], y);
+        addFront(a[y], x);
+    }
+    bfs(1);
+    system("pause");
+    return 0;
+}
