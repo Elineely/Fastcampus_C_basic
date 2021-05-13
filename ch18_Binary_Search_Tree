@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct{
+    int data;
+    struct Node leftChild;
+    struct Node rightChild;
+}Node;
+
+Node* insertNode(Node* root, int data){
+    if (root == NULL){ //트리가 비어있거나, 해당 root노드가 NULL값일 때 새 노드를 생성 및 초기화
+        root = (Node*)malloc(sizeof(Node));
+        root->leftChild = root->rightChild = NULL;
+        root->data = data;
+    }
+    else{
+        if(root->data > data){ //부모 노드의 데이터보다 삽입 데이터가 작다면
+            root->leftChild = insertNode(root->leftChild, data);      
+        }
+        else{ //부모 노드의 데이터가 삽입 데이터가 크다면
+            root->rightChild = insertNode(root->rightChild, data);
+        }
+    }
+    return root;
+}
+
+Node* searchNode(Node* root, int data){ //특정한 값(data)를 갖는 노드 탐색
+    if (root == NULL) return NULL; //탐색 실패
+    if (root->data == data) return root; //노드 발견시 해당 노드 자체(포인터)를 반환
+    else if (root->data > data) returnsearchNode(root->leftChild, data);
+    else return searchNode(root->rightChild, data);
+}
+
+void preorder(Node* root){ //전위 순회 방식으로 구현
+    if(root == NULL) return;
+    printf("%d ", root->data);
+    preorder(root->leftChild);
+    preorder(root->rightChild);
+}
+
+int main(void){ //이진 탐색 트리 생성
+    Node* root = NULL;
+    root = insertNode(root, 30);
+    root = insertNode(root, 17);
+    root = insertNode(root, 48);
+    root = insertNode(root, 5);
+    root = insertNode(root, 23);
+    root = insertNode(root, 37);
+    root = insertNode(root, 50);
+    preorder(root); 
+    system("pause");
+}
