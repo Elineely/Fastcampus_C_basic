@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct{
+    int data;
+    struct Node leftChild;
+    struct Node rightChild;
+}Node;
+
+Node* insertNode(Node* root, int data){
+    if (root == NULL){ //트리가 비어있거나, 해당 root노드가 NULL값일 때 새 노드를 초기화
+        root = (Node*)malloc(sizeof(Node));
+        root->leftChild = root->rightChild = NULL;
+        root->data = data;
+    }
+    else{
+        if(root->data > data){ //부모 노드의 데이터보다 삽입데이터가 작다면
+            root->leftChild = insertNode(root->leftChild, data);      
+        }
